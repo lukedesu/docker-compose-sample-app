@@ -1,0 +1,15 @@
+FROM golang:1.11.1-alpine3.8
+
+ARG APP_ENV
+
+ENV APP_ENV $APP_ENV
+
+COPY . /go/src/echoteas-api/src/api/
+
+WORKDIR /go/src/echoteas-api/src/api/
+
+RUN apk update \
+  && apk add --no-cache git \
+  && go get -u github.com/pilu/fresh
+
+CMD fresh

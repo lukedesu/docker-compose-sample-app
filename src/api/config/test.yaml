@@ -1,0 +1,16 @@
+server:
+  httpPort: 9090
+  readTimeout: 60
+  writeTimeout: 60
+
+database:
+  type: "postgres"
+  host: "docker.for.mac.host.internal"
+  port: 5432
+  dbname: "echoteas_dev"
+  tablePrefix: "et_"
+  user: "postgres"
+  password: "123456"
+  sslmode: "disable"
+  maxOpenConns: 200
+  maxIdleConns: 10

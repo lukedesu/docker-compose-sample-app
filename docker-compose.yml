@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  nginx:
+    image: nginx
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api
+
+  api:
+    image: echoteas-api-dev:latest
+    build:
+      context: .
+      dockerfile: ./src/api/Dockerfile.dev
+    volumes:
+      - ./src/api:/go/src/echoteas-api/src/api
+      - ./src/api/vendor:/go/src/echoteas-api/src/api/vendor
+    ports:
+      - 9090:9090
+    environment:
+      - APP_ENV=development
+    tty: true
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    image: echoteas-worker-dev:latest
+    build:
+      context: .
+      dockerfile: ./src/worker/Dockerfile.dev
+    volumes:
+      - ./src/worker:/go/src/echoteas-api/src/worker
+      - ./src/worker/vendor:/go/src/echoteas-api/src/worker/vendor
+    environment:
+      - APP_ENV=development
+    tty: true
+    depends_on:
+      - db
+      - redis

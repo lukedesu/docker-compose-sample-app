@@ -1,0 +1,16 @@
+server:
+  httpPort: 9080
+  readTimeout: 60
+  writeTimeout: 60
+
+database:
+  type: "postgres"
+  host: "xxx.pg.rds.aliyuncs.com"
+  port: 3433
+  dbname: "echoteas_production"
+  tablePrefix: "et_"
+  user: "echoteas"
+  password: "xxx"
+  sslmode: "disable"
+  maxOpenConns: 200
+  maxIdleConns: 10
